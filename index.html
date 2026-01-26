@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <title>5555</title>
+    
+
+  </head>
+    
+  <body>
+  <!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZEGXME SHOP </title>
+
+<style>
+*{box-sizing:border-box;}
+body{
+  font-family:"Prompt",sans-serif;
+  background:#f4f6f8;
+  margin:0;
+  padding:10px;
+}
+.container{
+  max-width:794px;
+  background:#fff;
+  margin:auto;
+  padding:15px;
+}
+.header{text-align:center;}
+.header img{max-width:120px;}
+h2{margin:5px 0;color:#0a3cff;}
+
+input,textarea{
+  width:100%;
+  padding:6px;
+  font-size:14px;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:10px;
+  table-layout:fixed;
+}
+th,td{
+  border:1px solid #ccc;
+  padding:5px;
+  text-align:center;
+  word-wrap:break-word;
+}
+th{background:#eaf0ff;}
+
+button{
+  width:100%;
+  margin-top:10px;
+  padding:10px;
+  font-size:16px;
+  cursor:pointer;
+}
+
+.total{
+  text-align:right;
+  font-weight:bold;
+  margin-top:10px;
+}
+
+.receipt{display:none;}
+
+.qr{text-align:center;margin-top:15px;}
+.qr img{max-width:180px;}
+
+.print-btn{
+  background:#0a3cff;
+  color:#fff;
+  border:none;
+}
+
+@media print{
+  body{background:#fff;}
+  .form, .print-btn{display:none;}
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<!-- ฟอร์ม -->
+<div class="form" id="form">
+  <div class="header">
+    <img src="https://img5.pic.in.th/file/secure-sv1/8B688F68-198B-486D-8E58-B93398F932B0.png">
+    <h2>ZEGXME SHOP</h2>
+
+  </div>
+
+  ชื่อ:
+  <input id="custName">
+
+  วันที่:
+  <input id="date" readonly>
+
+  หมายเหตุ:
+  <textarea id="note"></textarea>
+
+  <table id="table">
+    <thead>
+      <tr>
+        <th style="width:10%">ลำดับ</th>
+        <th style="width:45%">รายการ</th>
+        <th style="width:15%">หน่วย</th>
+        <th style="width:30%">ราคา</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><input></td>
+        <td><input></td>
+        <td><input type="number" oninput="calc()"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <button onclick="addRow()">➕ เพิ่มแถว</button>
+
+  <div class="total">
+    รวมทั้งหมด: <span id="total">0</span> บาท
+  </div>
+
+  <button onclick="showReceipt()">บันทึกใบเสร็จ</button>
+</div>
+
+<!-- ใบเสร็จ -->
+<div class="receipt" id="receipt">
+  <div class="header">
+    <img src="https://img5.pic.in.th/file/secure-sv1/8B688F68-198B-486D-8E58-B93398F932B0.png">
+    <h2>ZEGXME SHOP</h2>
+  </div>
+
+  <p>เลขที่ใบเสร็จ: <b id="rid"></b></p>
+  <p>ชื่อ: <span id="rname"></span></p>
+  <p>วันที่: <span id="rdate"></span></p>
+  <p>หมายเหตุ: <span id="rnote"></span></p>
+
+  <div id="rtable"></div>
+
+  <div class="total">
+    รวมทั้งหมด: <span id="rtotal"></span> บาท
+  </div>
+
+  <div class="qr">
+    ชำระยอดค้างที่คิวอาร์ด้านล่าง<br>
+    <img src="https://img2.pic.in.th/IMG_6211.jpeg">
+  </div>
+
+
+</div>
+
+<script>
+date.value=new Date().toLocaleDateString("th-TH");
+
+function addRow(){
+  const tb=document.querySelector("#table tbody");
+  const r=tb.rows.length+1;
+  tb.insertRow().innerHTML=
+  `<td>${r}</td>
+   <td><input></td>
+   <td><input></td>
+   <td><input type="number" oninput="calc()"></td>`;
+}
+
+function calc(){
+  let s=0;
+  document.querySelectorAll('#table input[type=number]')
+    .forEach(i=>s+=Number(i.value||0));
+  total.innerText=s.toLocaleString();
+}
+
+function genReceiptNo(){
+  const d=new Date();
+  return "ZG"+d.getFullYear()
+    +String(d.getMonth()+1).padStart(2,"0")
+    +String(d.getDate()).padStart(2,"0")
+    +Math.floor(Math.random()*9000+1000);
+}
+
+function showReceipt(){
+  form.style.display="none";
+  receipt.style.display="block";
+
+  rid.innerText=genReceiptNo();
+  rname.innerText=custName.value;
+  rdate.innerText=date.value;
+  rnote.innerText=note.value;
+  rtotal.innerText=total.innerText;
+
+  // แปลง input เป็นข้อความ (ไม่ล้น)
+  const temp=document.getElementById("table").cloneNode(true);
+  temp.querySelectorAll("input").forEach(i=>{
+    const td=i.parentElement;
+    td.innerText=i.value;
+  });
+  rtable.innerHTML=temp.outerHTML;
+}
+</script>
+
+</body>
+</html>
+    
+  </body>
+  
+</html>
