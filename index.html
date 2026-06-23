@@ -1,216 +1,252 @@
 <!DOCTYPE html>
-<html lang="en">
-
-  <head>
-    <meta charset="UTF-8">
-    <title>5555</title>
-    
-
-  </head>
-    
-  <body>
-  <!DOCTYPE html>
 <html lang="th">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ZEGXME SHOP </title>
-
-<style>
-*{box-sizing:border-box;}
-body{
-  font-family:"Prompt",sans-serif;
-  background:#f4f6f8;
-  margin:0;
-  padding:10px;
-}
-.container{
-  max-width:794px;
-  background:#fff;
-  margin:auto;
-  padding:15px;
-}
-.header{text-align:center;}
-.header img{max-width:120px;}
-h2{margin:5px 0;color:#0a3cff;}
-
-input,textarea{
-  width:100%;
-  padding:6px;
-  font-size:14px;
-}
-
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:10px;
-  table-layout:fixed;
-}
-th,td{
-  border:1px solid #ccc;
-  padding:5px;
-  text-align:center;
-  word-wrap:break-word;
-}
-th{background:#eaf0ff;}
-
-button{
-  width:100%;
-  margin-top:10px;
-  padding:10px;
-  font-size:16px;
-  cursor:pointer;
-}
-
-.total{
-  text-align:right;
-  font-weight:bold;
-  margin-top:10px;
-}
-
-.receipt{display:none;}
-
-.qr{text-align:center;margin-top:15px;}
-.qr img{max-width:180px;}
-
-.print-btn{
-  background:#0a3cff;
-  color:#fff;
-  border:none;
-}
-
-@media print{
-  body{background:#fff;}
-  .form, .print-btn{display:none;}
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>สัตว์ตัวนี้ชอบกินอะไร?</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Prompt", "Noto Sans Thai", system-ui, sans-serif;
+      background: linear-gradient(135deg, #fff7ed, #fef3c7, #ecfeff);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      color: #3f3f46;
+    }
+    .game {
+      width: min(460px, 100%);
+      background: rgba(255,255,255,0.86);
+      border: 2px solid rgba(255,255,255,0.8);
+      border-radius: 30px;
+      padding: 26px;
+      box-shadow: 0 18px 45px rgba(120, 113, 108, 0.18);
+      text-align: center;
+    }
+    h1 {
+      margin: 0 0 8px;
+      font-size: 1.75rem;
+      color: #fb7185;
+    }
+    .subtitle {
+      margin: 0 0 18px;
+      color: #78716c;
+      font-size: 0.98rem;
+    }
+    .progress {
+      height: 11px;
+      background: #f5f5f4;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 14px 0 22px;
+    }
+    .bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #fda4af, #facc15);
+      transition: width 0.3s ease;
+    }
+    .animal-card {
+      background: #fffaf0;
+      border-radius: 26px;
+      padding: 20px 12px;
+      margin-bottom: 18px;
+      border: 2px dashed #fed7aa;
+    }
+    .animal {
+      font-size: 6rem;
+      line-height: 1;
+      filter: drop-shadow(0 8px 10px rgba(0,0,0,0.08));
+    }
+    .question {
+      margin-top: 12px;
+      font-size: 1.18rem;
+      font-weight: 700;
+    }
+    .choices {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+    button {
+      border: none;
+      cursor: pointer;
+      font-family: inherit;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+    .choice {
+      background: #ffffff;
+      border-radius: 22px;
+      padding: 16px 8px;
+      font-size: 2.3rem;
+      box-shadow: 0 8px 18px rgba(120, 113, 108, 0.12);
+      border: 2px solid #fff7ed;
+    }
+    .choice span {
+      display: block;
+      font-size: 0.9rem;
+      margin-top: 5px;
+      color: #57534e;
+    }
+    .choice:hover { transform: translateY(-3px); }
+    .choice.correct { background: #dcfce7; border-color: #86efac; }
+    .choice.wrong { background: #ffe4e6; border-color: #fda4af; }
+    .message {
+      min-height: 34px;
+      margin: 16px 0 10px;
+      font-weight: 700;
+      color: #fb7185;
+    }
+    .score {
+      color: #78716c;
+      font-weight: 700;
+      margin-bottom: 14px;
+    }
+    .next, .restart {
+      background: #fb7185;
+      color: white;
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      box-shadow: 0 10px 20px rgba(251, 113, 133, 0.25);
+    }
+    .next:hover, .restart:hover { transform: translateY(-2px); }
+    .hidden { display: none; }
+    .final-emoji { font-size: 5rem; margin: 14px 0; }
+    @media (max-width: 390px) {
+      .game { padding: 20px; }
+      h1 { font-size: 1.45rem; }
+      .animal { font-size: 5rem; }
+      .choice { font-size: 2rem; }
+    }
+  </style>
 </head>
-
 <body>
+  <main class="game">
+    <h1>สัตว์ตัวนี้ชอบกินอะไร?</h1>
+    <p class="subtitle">ดูรูปสัตว์ แล้วเลือกอาหารที่เหมาะกับมัน 🐾</p>
 
-<div class="container">
+    <section id="quizBox">
+      <div class="score" id="scoreText">คะแนน 0</div>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+      <div class="animal-card">
+        <div class="animal" id="animalEmoji">🐰</div>
+        <div class="question" id="questionText">กระต่ายชอบกินอะไร?</div>
+      </div>
+      <div class="choices" id="choices"></div>
+      <div class="message" id="message"></div>
+      <button class="next hidden" id="nextBtn">ข้อต่อไป ✨</button>
+    </section>
 
-<!-- ฟอร์ม -->
-<div class="form" id="form">
-  <div class="header">
-    <img src="https://img5.pic.in.th/file/secure-sv1/8B688F68-198B-486D-8E58-B93398F932B0.png">
-    <h2>ZEGXME SHOP</h2>
-  </div>
+    <section id="resultBox" class="hidden">
+      <div class="final-emoji">🎉</div>
+      <h2 id="finalText">เก่งมาก!</h2>
+      <p id="finalScore"></p>
+      <button class="restart" id="restartBtn">เล่นอีกครั้ง</button>
+    </section>
+  </main>
 
-  ชื่อ:
-  <input id="custName">
+  <script>
+    const questions = [
+      { animal: "🐰", name: "กระต่าย", answer: "🥕", choices: ["🥕", "🍖", "🐟", "🍯"], labels: ["แครอท", "เนื้อ", "ปลา", "น้ำผึ้ง"] },
+      { animal: "🐼", name: "แพนด้า", answer: "🎋", choices: ["🎋", "🍕", "🍤", "🍪"], labels: ["ไผ่", "พิซซ่า", "กุ้ง", "คุกกี้"] },
+      { animal: "🐵", name: "ลิง", answer: "🍌", choices: ["🍌", "🥩", "🧀", "🌶️"], labels: ["กล้วย", "เนื้อสัตว์", "ชีส", "พริก"] },
+      { animal: "🐱", name: "แมว", answer: "🐟", choices: ["🐟", "🥕", "🍞", "🍇"], labels: ["ปลา", "แครอท", "ขนมปัง", "องุ่น"] },
+      { animal: "🐶", name: "สุนัข", answer: "🦴", choices: ["🦴", "🍫", "🍋", "🥬"], labels: ["กระดูก", "ช็อกโกแลต", "มะนาว", "ผัก"] },
+      { animal: "🐮", name: "วัว", answer: "🌿", choices: ["🌿", "🍩", "🍗", "🍭"], labels: ["ใบไม้", "โดนัท", "ไก่", "ลูกอม"] },
+      { animal: "🐘", name: "ช้าง", answer: "🍃", choices: ["🍃", "🧁", "🍔", "🐟"], labels: ["ใบไม้", "คัพเค้ก", "เบอร์เกอร์", "ปลา"] },
+      { animal: "🐝", name: "ผึ้ง", answer: "🌸", choices: ["🌸", "🍟", "🥓", "🧀"], labels: ["เกสรดอกไม้", "เฟรนช์ฟรายส์", "เบคอน", "ชีส"] },
+      { animal: "🐹", name: "แฮมสเตอร์", answer: "🌻", choices: ["🌻", "🍣", "🍦", "🌶️"], labels: ["เมล็ดทานตะวัน", "ซูชิ", "ไอศกรีม", "พริก"] },
+      { animal: "🦒", name: "ยีราฟ", answer: "🌳", choices: ["🌳", "🍰", "🥨", "🍤"], labels: ["ใบไม้บนต้นไม้", "เค้ก", "เพรตเซล", "กุ้ง"] }
+    ];
 
-  วันที่:
-  <input id="date" readonly>
+    let index = 0;
+    let score = 0;
+    let answered = false;
 
-  หมายเหตุ:
-  <textarea id="note"></textarea>
+    const animalEmoji = document.getElementById("animalEmoji");
+    const questionText = document.getElementById("questionText");
+    const choicesBox = document.getElementById("choices");
+    const message = document.getElementById("message");
+    const nextBtn = document.getElementById("nextBtn");
+    const scoreText = document.getElementById("scoreText");
+    const bar = document.getElementById("bar");
+    const quizBox = document.getElementById("quizBox");
+    const resultBox = document.getElementById("resultBox");
+    const finalText = document.getElementById("finalText");
+    const finalScore = document.getElementById("finalScore");
+    const restartBtn = document.getElementById("restartBtn");
 
-  <table id="table">
-    <thead>
-      <tr>
-        <th style="width:10%">ลำดับ</th>
-        <th style="width:45%">รายการ</th>
-        <th style="width:15%">หน่วย</th>
-        <th style="width:30%">ราคา</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td>1</td>
-        <td><input></td>
-        <td><input></td>
-        <td><input type="number" oninput="calc()"></td>
-      </tr>
-    </tbody>
-  </table>
+    function loadQuestion() {
+      answered = false;
+      const q = questions[index];
+      animalEmoji.textContent = q.animal;
+      questionText.textContent = `${q.name}ชอบกินอะไร?`;
+      choicesBox.innerHTML = "";
+      message.textContent = "";
+      nextBtn.classList.add("hidden");
+      scoreText.textContent = `คะแนน ${score}`;
+      bar.style.width = `${(index / questions.length) * 100}%`;
 
-  <button onclick="addRow()">➕ เพิ่มแถว</button>
+      q.choices.forEach((choice, i) => {
+        const btn = document.createElement("button");
+        btn.className = "choice";
+        btn.innerHTML = `${choice}<span>${q.labels[i]}</span>`;
+        btn.onclick = () => checkAnswer(btn, choice);
+        choicesBox.appendChild(btn);
+      });
+    }
 
-  <div class="total">
-    รวมทั้งหมด: <span id="total">0</span> บาท
-  </div>
+    function checkAnswer(btn, choice) {
+      if (answered) return;
+      answered = true;
+      const q = questions[index];
+      const allBtns = document.querySelectorAll(".choice");
 
-  <button onclick="showReceipt()">บันทึกใบเสร็จ</button>
-</div>
+      allBtns.forEach(b => {
+        if (b.textContent.includes(q.answer)) b.classList.add("correct");
+        b.disabled = true;
+      });
 
-<!-- ใบเสร็จ -->
-<div class="receipt" id="receipt">
-  <div class="header">
-    <img src="https://img5.pic.in.th/file/secure-sv1/8B688F68-198B-486D-8E58-B93398F932B0.png">
-    <h2>ZEGXME SHOP</h2>
-  </div>
+      if (choice === q.answer) {
+        score++;
+        btn.classList.add("correct");
+        message.textContent = "ถูกต้อง! น่ารักมาก 🌟";
+      } else {
+        btn.classList.add("wrong");
+        message.textContent = `ยังไม่ใช่นะ คำตอบคือ ${q.answer}`;
+      }
+      scoreText.textContent = `คะแนน ${score}`;
+      nextBtn.classList.remove("hidden");
+    }
 
-  <p>เลขที่ใบเสร็จ: <b id="rid"></b></p>
-  <p>ชื่อ: <span id="rname"></span></p>
-  <p>วันที่: <span id="rdate"></span></p>
-  <p>หมายเหตุ: <span id="rnote"></span></p>
+    function showResult() {
+      quizBox.classList.add("hidden");
+      resultBox.classList.remove("hidden");
+      bar.style.width = "100%";
+      finalText.textContent = score >= 8 ? "สุดยอดเลย!" : score >= 5 ? "ทำได้ดีมาก!" : "ลองใหม่อีกครั้งนะ!";
+      finalScore.textContent = `ได้คะแนน ${score} / ${questions.length}`;
+    }
 
-  <div id="rtable"></div>
+    nextBtn.onclick = () => {
+      index++;
+      if (index < questions.length) loadQuestion();
+      else showResult();
+    };
 
-  <div class="total">
-    รวมทั้งหมด: <span id="rtotal"></span> บาท
-  </div>
+    restartBtn.onclick = () => {
+      index = 0;
+      score = 0;
+      quizBox.classList.remove("hidden");
+      resultBox.classList.add("hidden");
+      loadQuestion();
+    };
 
-  <div class="qr">
-    ชำระยอดที่คิวอาร์ด้านล่างนะครับ<br>
-    <img src="https://img5.pic.in.th/file/secure-sv1/IMG_67504b04daddf303e172.jpeg">
-  </div>
-
-
-</div>
-
-<script>
-date.value=new Date().toLocaleDateString("th-TH");
-
-function addRow(){
-  const tb=document.querySelector("#table tbody");
-  const r=tb.rows.length+1;
-  tb.insertRow().innerHTML=
-  `<td>${r}</td>
-   <td><input></td>
-   <td><input></td>
-   <td><input type="number" oninput="calc()"></td>`;
-}
-
-function calc(){
-  let s=0;
-  document.querySelectorAll('#table input[type=number]')
-    .forEach(i=>s+=Number(i.value||0));
-  total.innerText=s.toLocaleString();
-}
-
-function genReceiptNo(){
-  const d=new Date();
-  return "ZG"+d.getFullYear()
-    +String(d.getMonth()+1).padStart(2,"0")
-    +String(d.getDate()).padStart(2,"0")
-    +Math.floor(Math.random()*9000+1000);
-}
-
-function showReceipt(){
-  form.style.display="none";
-  receipt.style.display="block";
-
-  rid.innerText=genReceiptNo();
-  rname.innerText=custName.value;
-  rdate.innerText=date.value;
-  rnote.innerText=note.value;
-  rtotal.innerText=total.innerText;
-
-  // แปลง input เป็นข้อความ (ไม่ล้น)
-  const temp=document.getElementById("table").cloneNode(true);
-  temp.querySelectorAll("input").forEach(i=>{
-    const td=i.parentElement;
-    td.innerText=i.value;
-  });
-  rtable.innerHTML=temp.outerHTML;
-}
-</script>
-
+    loadQuestion();
+  </script>
 </body>
-</html>
-    
-  </body>
-  
 </html>
